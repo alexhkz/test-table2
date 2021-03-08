@@ -1,20 +1,20 @@
 import React from 'react';
 
-const Table = (props) => {
+const Table = ({sortData, contactData}) => {
 	return (
 		<table className="table">
 				<thead>
 					<tr>
-						<th>Id</th>
-						<th>FirstName</th>
-						<th>LastName</th>
-						<th>Email</th>
-						<th>Phone</th>
+						<th onClick={ () => {sortData('id')} }>Id</th>
+						<th onClick={ () => {sortData('firstName')} }>FirstName</th>
+						<th onClick={ () => {sortData('lastName')} }>LastName</th>
+						<th onClick={ () => {sortData('email')} }>Email</th>
+						<th onClick={ () => {sortData('phone')} }>Phone</th>
 					</tr>
 				</thead>
 			
 			<tbody>
-				{props.smallData.map(
+				{contactData.map(
 					item => (
 						<tr key={item.id}>
 							<td>{item.id}</td>
