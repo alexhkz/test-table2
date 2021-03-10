@@ -1,15 +1,27 @@
 import React from 'react';
+import ArrowUp from '../svg/ArrowUp';
+import ArrowDown from '../svg/ArrowDown';
 
-const Table = ({sortData, contactData}) => {
+const Table = ({sortData, contactData, directionSort}) => {
 	return (
 		<table className="table">
 				<thead>
 					<tr>
-						<th onClick={ () => {sortData('id')} }>Id</th>
-						<th onClick={ () => {sortData('firstName')} }>FirstName</th>
-						<th onClick={ () => {sortData('lastName')} }>LastName</th>
-						<th onClick={ () => {sortData('email')} }>Email</th>
-						<th onClick={ () => {sortData('phone')} }>Phone</th>
+						<th onClick={ () => {sortData('id')} }>
+							Id {directionSort ? <ArrowDown/> : <ArrowUp/>}
+							</th>
+						<th onClick={ () => {sortData('firstName')} }>
+							FirstName {directionSort ? <ArrowDown/> : <ArrowUp/>}
+							</th>
+						<th onClick={ () => {sortData('lastName')} }>
+							LastName {directionSort ? <ArrowDown/> : <ArrowUp/>}
+							</th>
+						<th onClick={ () => {sortData('email')} }>
+							Email {directionSort ? <ArrowDown/> : <ArrowUp/>}
+							</th>
+						<th onClick={ () => {sortData('phone')} }>
+							Phone {directionSort ? <ArrowDown/> : <ArrowUp/>}
+							</th>
 					</tr>
 				</thead>
 			

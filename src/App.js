@@ -44,7 +44,7 @@ function App() {
     	<div className="container">
 			{isLoading 
 				? <Loader /> 
-				: <Table contactData={contactData} sortData={sortData}/>}
+				: <Table contactData={contactData} sortData={sortData} directionSort={directionSort} />}
     	</div>
   	);
 }
