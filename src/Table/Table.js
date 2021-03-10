@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import ArrowUp from '../svg/ArrowUp';
 import ArrowDown from '../svg/ArrowDown';
 
-const Table = ({sortData, contactData, directionSort}) => {
+const Table = ({sortData, contactData, directionSort, detailRow}) => {
 
 	const [fieldData, setFieldData] = useState('');
 	const Arrow = () => {
@@ -44,7 +44,7 @@ const Table = ({sortData, contactData, directionSort}) => {
 			<tbody>
 				{contactData.map(
 					item => (
-						<tr key={item.id}>
+						<tr key={item.id + item.email} onClick={ () => detailRow(item)}>
 							<td>{item.id}</td>
 							<td>{item.firstName}</td>
 							<td>{item.lastName}</td>

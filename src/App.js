@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Table from './Table/Table'
 import Loader from './Loader/Loader';
+import DetailedItem from './DetailItem/DetailItem';
 
 function App() {
 
@@ -11,8 +12,10 @@ function App() {
 	const [contactData, setContactData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [directionSort, setDirectionSort] = useState(true);
+	const [rowItem, setRowItem] = useState('');
 
 	const sortData = (field) => {
+
 		const copyData = contactData.concat();
 
 		let sortData;
@@ -40,11 +43,22 @@ function App() {
 				});
 	}, []);
 
+	const detailRow = (row) => {
+		return (
+			setRowItem(row)
+		)
+	}
+
 	return (
     	<div className="container">
 			{isLoading 
 				? <Loader /> 
-				: <Table contactData={contactData} sortData={sortData} directionSort={directionSort} />}
+				: <Table 
+				contactData={contactData} 
+				sortData={sortData} 
+				directionSort={directionSort} 
+				detailRow={detailRow} />}
+				<DetailedItem detailItemData={rowItem} />
     	</div>
   	);
 }
