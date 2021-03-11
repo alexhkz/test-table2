@@ -1,18 +1,17 @@
 import './App.css';
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import React, {useState} from 'react';
 import Table from './Table/Table'
 import Loader from './Loader/Loader';
 import DetailedItem from './DetailItem/DetailItem';
+import useServerData from './Hooks/UseServerData';
 
 function App() {
-
-	const baseUrl = 'http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}'
   	
-	const [contactData, setContactData] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
+	// const [contactData, setContactData] = useState([]);
+	// const [isLoading, setIsLoading] = useState(true);
 	const [directionSort, setDirectionSort] = useState(true);
 	const [rowItem, setRowItem] = useState('');
+	const [{contactData, isLoading, setContactData}, getData] = useServerData('someUrl');
 
 	const sortData = (field) => {
 
@@ -34,14 +33,6 @@ function App() {
 	setDirectionSort(!directionSort);
 	console.log(directionSort)
 	}
-
-	useEffect(() => {
-		axios(baseUrl)
-			.then((response) => {
-				setContactData(response.data);
-				setIsLoading(false);
-				});
-	}, []);
 
 	const detailRow = (row) => {
 		return (
