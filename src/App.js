@@ -1,17 +1,26 @@
 import './App.css';
 import React, {useState} from 'react';
-import Table from './Table/Table'
-import Loader from './Loader/Loader';
-import DetailedItem from './DetailItem/DetailItem';
 import useServerData from './Hooks/UseServerData';
+import Switcher from './Switcher/Switcher';
+import TableBody from './TableBody/TableBody';
 
 function App() {
   	
 	// const [contactData, setContactData] = useState([]);
 	// const [isLoading, setIsLoading] = useState(true);
+
+	// const url = 'http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}';
+	const [isButtonClick, setIsButtonClick] = useState(false)
 	const [directionSort, setDirectionSort] = useState(true);
 	const [rowItem, setRowItem] = useState('');
-	const [{contactData, isLoading, setContactData}, getData] = useServerData('someUrl');
+	const [url, setUrl] = useState('');
+	const [{contactData, isLoading, setContactData}, ] = useServerData({url, isButtonClick});
+
+	const buttonHandler = (url) => {
+		setUrl(url);
+		setIsButtonClick(true);
+		console.log(url);
+	}
 
 	const sortData = (field) => {
 
@@ -42,14 +51,14 @@ function App() {
 
 	return (
     	<div className="container">
-			{isLoading 
-				? <Loader /> 
-				: <Table 
-				contactData={contactData} 
-				sortData={sortData} 
-				directionSort={directionSort} 
-				detailRow={detailRow} />}
-				<DetailedItem detailItemData={rowItem} />
+			<Switcher buttonHandler={buttonHandler}/>
+			<TableBody 
+				contactData={contactData}
+				sortData={sortData}
+				directionSort={directionSort}
+				detailItemData={rowItem} 
+				detailRow={detailRow}
+				isLoading={isLoading} />
     	</div>
   	);
 }
