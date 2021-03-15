@@ -15,7 +15,6 @@ const Table = ({sortData, contactData, directionSort, detailRow, detailItemData,
 	const fieldSortData = (field) => {
 		return (
 			sortData(field),
-			console.log(field),
 			setFieldData(field)
 		)
 	}
