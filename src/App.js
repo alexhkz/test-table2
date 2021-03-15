@@ -14,6 +14,7 @@ function App() {
 	const [directionSort, setDirectionSort] = useState(true);
 	const [rowItem, setRowItem] = useState('');
 	const [url, setUrl] = useState('');
+	const [rowIsClicked, setRowIsClicked] = useState(false);
 	const [{contactData, isLoading, setContactData}, ] = useServerData({url, isButtonClick});
 
 	const buttonHandler = (url) => {
@@ -44,21 +45,24 @@ function App() {
 	}
 
 	const detailRow = (row) => {
-		return (
-			setRowItem(row)
-		)
+		setRowIsClicked(true);
+		setRowItem(row);
 	}
 
 	return (
     	<div className="container">
-			<Switcher buttonHandler={buttonHandler}/>
-			<TableBody 
-				contactData={contactData}
-				sortData={sortData}
-				directionSort={directionSort}
-				detailItemData={rowItem} 
-				detailRow={detailRow}
-				isLoading={isLoading} />
+			{
+				!isButtonClick 
+				? <Switcher buttonHandler={buttonHandler}/>
+				: <TableBody 
+					contactData={contactData}
+					sortData={sortData}
+					directionSort={directionSort}
+					detailItemData={rowItem} 
+					detailRow={detailRow}
+					isLoading={isLoading} 
+					rowIsClicked={rowIsClicked} />
+			}
     	</div>
   	);
 }

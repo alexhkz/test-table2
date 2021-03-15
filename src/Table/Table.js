@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import ArrowUp from '../svg/ArrowUp';
 import ArrowDown from '../svg/ArrowDown';
+import DetailedItem from '../DetailItem/DetailItem';
 
-const Table = ({sortData, contactData, directionSort, detailRow}) => {
+const Table = ({sortData, contactData, directionSort, detailRow, detailItemData, rowIsClicked}) => {
 
 	const [fieldData, setFieldData] = useState('');
 	const Arrow = () => {
@@ -20,7 +21,8 @@ const Table = ({sortData, contactData, directionSort, detailRow}) => {
 	}
 
 	return (
-		<table className="table">
+		<div>
+			<table className="table">
 				<thead>
 					<tr>
 						<th onClick={ () => {fieldSortData('id')} }>
@@ -54,7 +56,13 @@ const Table = ({sortData, contactData, directionSort, detailRow}) => {
 				))}
 			</tbody>
 			</table>
-	)
-}
+			{
+				rowIsClicked 
+					? <DetailedItem detailItemData={detailItemData} />
+					: null 
+			}
+		</div>
+	);
+};
 
 export default Table;

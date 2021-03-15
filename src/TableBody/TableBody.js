@@ -1,9 +1,8 @@
 import React, {Fragment} from 'react';
 import Table from '../Table/Table';
 import Loader from '../Loader/Loader';
-import DetailedItem from '../DetailItem/DetailItem';
 
-const TableBody = ({contactData, sortData, detailItemData, directionSort, detailRow, isLoading}) => {
+const TableBody = ({contactData, sortData, detailItemData, directionSort, detailRow, isLoading, rowIsClicked}) => {
 	return (
 		
 			isLoading 
@@ -13,9 +12,9 @@ const TableBody = ({contactData, sortData, detailItemData, directionSort, detail
 					contactData={contactData} 
 					sortData={sortData} 
 					directionSort={directionSort} 
-					detailRow={detailRow} />
-				<DetailedItem 
-					detailItemData={detailItemData} />
+					detailRow={detailRow} 
+					detailItemData={detailItemData} 
+					rowIsClicked={rowIsClicked} />
 		</Fragment>
 	)
 }
