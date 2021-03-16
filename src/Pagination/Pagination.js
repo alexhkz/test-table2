@@ -1,19 +1,27 @@
 import React from 'react';
 
-const Pagination = ({pages, currentPage, onNextClick, onPreviousClick, buttonNextDisabled, buttonPreviousDisabled}) => {
+const Pagination = ({
+	pages, 
+	currentPage, 
+	onNextClick, 
+	onPreviousClick, 
+	buttonNextDisabled, 
+	buttonPreviousDisabled,
+	currentPageActive,
+	currentPageNumber
+}) => {
 	return (
 		<nav aria-label="...">
 			<ul className="pagination">
 				<li className={`page-item ${buttonPreviousDisabled}`}>
-					<a className="page-link" href="previous page" tabIndex="-1" onClick={ () => {onPreviousClick()} }>
+					<a className="page-link" href="#" tabIndex="-1" onClick={ () => {onPreviousClick()} }>
 						Previous
 					</a>
 				</li>
-				{
-					pages.map((p) => {
-						return(
-							<li className="page-item" key={p}>
-								<a className="page-link" href="page" onClick={ () => {currentPage(p)} }>
+				{pages.map((p) => {
+						return (
+							<li className={ (currentPageNumber === p) ? `page-item ${currentPageActive}` : 'page-item'} key={p}>
+								<a className="page-link" href="#" onClick={ () => {currentPage(p)} }>
 									{p}
 								</a>
 							</li>
@@ -21,7 +29,7 @@ const Pagination = ({pages, currentPage, onNextClick, onPreviousClick, buttonNex
 					})
 				}
 				<li className={`page-item ${buttonNextDisabled}`}>
-					<a className="page-link" href="next page" onClick={ () => {onNextClick()} }>
+					<a className="page-link" href="#" onClick={ () => {onNextClick()} }>
 						Next
 					</a>
 				</li>

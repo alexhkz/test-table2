@@ -31,8 +31,8 @@ function App() {
 		setIsButtonClick(true);
 	}
 
-	const lastBlockRow = (currentPageNumber * limitCountPage);
-	const firstBlockRow = (lastBlockRow - limitCountPage + 1);
+	const lastBlockRow = currentPageNumber * limitCountPage;
+	const firstBlockRow = lastBlockRow - limitCountPage + 1;
 	const currentBlockRows = contactData.slice(firstBlockRow, lastBlockRow);
 
 	const currentPage = (pg) => {
@@ -92,7 +92,6 @@ function App() {
 	const onPreviousClick = () => {
 		if(currentPageNumber < 2) {
 			setButtonPreviousDisabled('disabled')
-			console.log(buttonPreviousDisabled)
 			return
 		}
 		setCurrentPageNumber(currentPageNumber - 1)
@@ -113,14 +112,18 @@ function App() {
 						isLoading={isLoading} 
 						rowIsClicked={rowIsClicked} />
 			}
-				<Pagination 
+				{
+					isLoaded && (totalCountRow > limitCountPage) &&
+					<Pagination 
 					pages={pages}
 					currentPage={currentPage}
 					onNextClick={onNextClick} 
 					onPreviousClick={onPreviousClick}
 					buttonNextDisabled={buttonNextDisabled}
 					buttonPreviousDisabled={buttonPreviousDisabled}
-					currentPageActive={currentPageActive} />
+					currentPageActive={currentPageActive}
+					currentPageNumber={currentPageNumber} />
+				}
     	</div>
   	);
 }
