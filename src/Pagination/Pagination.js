@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Pagination = ({pages, currentPage, onNextClick, onPreviousClick}) => {
+const Pagination = ({pages, currentPage, onNextClick, onPreviousClick, buttonNextDisabled, buttonPreviousDisabled}) => {
 	return (
 		<nav aria-label="...">
 			<ul className="pagination">
-				<li className="page-item">
+				<li className={`page-item ${buttonPreviousDisabled}`}>
 					<a className="page-link" href="previous page" tabIndex="-1" onClick={ () => {onPreviousClick()} }>
 						Previous
 					</a>
@@ -20,7 +20,7 @@ const Pagination = ({pages, currentPage, onNextClick, onPreviousClick}) => {
 						)
 					})
 				}
-				<li className="page-item">
+				<li className={`page-item ${buttonNextDisabled}`}>
 					<a className="page-link" href="next page" onClick={ () => {onNextClick()} }>
 						Next
 					</a>

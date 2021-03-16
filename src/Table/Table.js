@@ -8,7 +8,9 @@ const Table = ({sortData, contactData, directionSort, detailRow, detailItemData,
 	const [fieldData, setFieldData] = useState('');
 	const Arrow = () => {
 		return (
-			directionSort ? <ArrowDown/> : <ArrowUp/>
+			directionSort 
+				? <ArrowDown/> 
+				: <ArrowUp/>
 		)
 	}
 

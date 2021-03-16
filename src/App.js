@@ -18,10 +18,11 @@ function App() {
 	const [totalCountRow, setTotalCountRow] = useState(0);
 	const [totalCountPage, setTotalCountPage] = useState(0);
 	const [rowIsClicked, setRowIsClicked] = useState(false);
-
 	const limitCountPage = 50;
-
-	const [currentPageNumber, setCurrentPageNumber] = useState(null);
+	const [currentPageNumber, setCurrentPageNumber] = useState(1);
+	const [buttonNextDisabled, setButtonNextDisabled] = useState('');
+	const [buttonPreviousDisabled, setButtonPreviousDisabled] = useState('');
+	const [currentPageActive, setCurrentPageActive] = useState('');
 
 	const [{contactData, isLoading, setContactData, isLoaded }, ] = useServerData({url, isButtonClick});
 
@@ -30,24 +31,25 @@ function App() {
 		setIsButtonClick(true);
 	}
 
-	const lastBlockRow = currentPageNumber * limitCountPage;
-	const firstBlockRow = lastBlockRow - limitCountPage + 1;
+	const lastBlockRow = (currentPageNumber * limitCountPage);
+	const firstBlockRow = (lastBlockRow - limitCountPage + 1);
 	const currentBlockRows = contactData.slice(firstBlockRow, lastBlockRow);
 
 	const currentPage = (pg) => {
 		setCurrentPageNumber(pg)
+		setButtonNextDisabled('')
+		setButtonPreviousDisabled('')
+		setCurrentPageActive('active')
 	}
 
 	useEffect( () => {
 		if(!isLoaded) {
 		return
 	}
-
 		setTotalCountRow(contactData.length)
 		const getTotalCountPage = totalCountRow/limitCountPage
 		setTotalCountPage(getTotalCountPage)
 
-		currentPage()
 	}, [isLoaded, setTotalCountRow, contactData.length, totalCountRow])
 
 	
@@ -58,19 +60,17 @@ function App() {
 
 	const sortData = (field) => {
 
-		const copyData = contactData.concat();
+	const copyData = contactData.concat();
 
-		let sortData;
+	let sortData;
 
-		if (directionSort) {
-			sortData = copyData.sort(
-				(a, b) => a[field] > b[field] ? 1: -1
-			);
-		} else {
-			sortData = copyData.reverse(
-				(a, b) => a[field] > b[field] ? 1: -1
-			);
-		}
+	if (directionSort) {
+		sortData = copyData.sort(
+			(a, b) => {return a[field] > b[field] ? 1 : -1}
+		)
+	} 	sortData = copyData.reverse(
+			(a, b) => {return a[field] > b[field] ? 1 : -1}
+		)
 		
 	setContactData(sortData);
 	setDirectionSort(!directionSort);
@@ -82,9 +82,19 @@ function App() {
 	}
 
 	const onNextClick = () => {
+		if(currentPageNumber > totalCountPage -1) {
+			setButtonNextDisabled('disabled')
+			console.log(buttonNextDisabled)
+			return
+		}
 		setCurrentPageNumber(currentPageNumber + 1)
 	}
 	const onPreviousClick = () => {
+		if(currentPageNumber < 2) {
+			setButtonPreviousDisabled('disabled')
+			console.log(buttonPreviousDisabled)
+			return
+		}
 		setCurrentPageNumber(currentPageNumber - 1)
 	}
 
@@ -94,20 +104,23 @@ function App() {
 				!isButtonClick 
 				? <Switcher buttonHandler={buttonHandler}/>
 				: <TableBody 
-					contactData={currentBlockRows}
-					sortData={sortData}
-					rowItem={rowItem}
-					directionSort={directionSort}
-					detailItemData={rowItem} 
-					detailRow={detailRow}
-					isLoading={isLoading} 
-					rowIsClicked={rowIsClicked} />
+						contactData={currentBlockRows}
+						sortData={sortData}
+						rowItem={rowItem}
+						directionSort={directionSort}
+						detailItemData={rowItem} 
+						detailRow={detailRow}
+						isLoading={isLoading} 
+						rowIsClicked={rowIsClicked} />
 			}
-			<Pagination 
-				pages={pages}
-				currentPage={currentPage}
-				onNextClick={onNextClick} 
-				onPreviousClick= {onPreviousClick} />
+				<Pagination 
+					pages={pages}
+					currentPage={currentPage}
+					onNextClick={onNextClick} 
+					onPreviousClick={onPreviousClick}
+					buttonNextDisabled={buttonNextDisabled}
+					buttonPreviousDisabled={buttonPreviousDisabled}
+					currentPageActive={currentPageActive} />
     	</div>
   	);
 }
