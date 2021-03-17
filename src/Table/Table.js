@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import ArrowUp from '../svg/ArrowUp';
 import ArrowDown from '../svg/ArrowDown';
 import DetailedItem from '../DetailItem/DetailItem';
+import SearchElement from '../Search/SearchElement';
 
-const Table = ({sortData, contactData, directionSort, detailRow, detailItemData, rowIsClicked}) => {
+const Table = ({sortData, contactData, directionSort, detailRow, detailItemData, rowIsClicked, onSearchSend}) => {
 
 	const [fieldData, setFieldData] = useState('');
 	const Arrow = () => {
@@ -23,6 +24,7 @@ const Table = ({sortData, contactData, directionSort, detailRow, detailItemData,
 
 	return (
 		<div>
+			<SearchElement onSearchSend={onSearchSend}/>
 			<table className="table">
 				<thead>
 					<tr>

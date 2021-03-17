@@ -20,9 +20,10 @@ function App() {
 	const [rowIsClicked, setRowIsClicked] = useState(false);
 	const limitCountPage = 50;
 	const [currentPageNumber, setCurrentPageNumber] = useState(1);
-	const [buttonNextDisabled, setButtonNextDisabled] = useState('');
-	const [buttonPreviousDisabled, setButtonPreviousDisabled] = useState('');
-	const [currentPageActive, setCurrentPageActive] = useState('');
+	const [buttonNextDisabled, setButtonNextDisabled] = useState('page-item');
+	const [buttonPreviousDisabled, setButtonPreviousDisabled] = useState('page-item');
+	const [currentPageActive, setCurrentPageActive] = useState('page-item');
+	const [searchText, setSearchText] = useState('');
 
 	const [{contactData, isLoading, setContactData, isLoaded }, ] = useServerData({url, isButtonClick});
 
@@ -31,9 +32,26 @@ function App() {
 		setIsButtonClick(true);
 	}
 
+	const getFilteredData = () => {
+		if(!searchText) {
+			return contactData
+		}
+			return contactData.filter(
+				el => {
+					return el['firstName'].toLowerCase().includes(searchText.toLowerCase())
+					|| el['lastName'].toLowerCase().includes(searchText.toLowerCase())
+					|| el['email'].toLowerCase().includes(searchText.toLowerCase())
+				}
+			)
+	}
+
+	const filteredData = getFilteredData()
+	console.log('contactData', contactData)
+	console.log('filteredData', filteredData)
+
 	const lastBlockRow = currentPageNumber * limitCountPage;
 	const firstBlockRow = lastBlockRow - limitCountPage + 1;
-	const currentBlockRows = contactData.slice(firstBlockRow, lastBlockRow);
+	const currentBlockRows = filteredData.slice(firstBlockRow, lastBlockRow);
 
 	const currentPage = (pg) => {
 		setCurrentPageNumber(pg)
@@ -46,16 +64,21 @@ function App() {
 		if(!isLoaded) {
 		return
 	}
-		setTotalCountRow(contactData.length)
-		const getTotalCountPage = totalCountRow/limitCountPage
+		setTotalCountRow(filteredData.length)
+		const getTotalCountPage = Math.ceil(totalCountRow/limitCountPage)
 		setTotalCountPage(getTotalCountPage)
 
-	}, [isLoaded, setTotalCountRow, contactData.length, totalCountRow])
+	}, [isLoaded, setTotalCountRow, filteredData.length, totalCountRow])
 
 	
 	let pages = []
 	for ( let i = 1; i <= totalCountPage; i++ ) {
 		pages.push(i)
+	}
+
+	const onSearchSend = (text) => {
+		setSearchText(text)
+		console.log(searchText)
 	}
 
 	const sortData = (field) => {
@@ -110,7 +133,8 @@ function App() {
 						detailItemData={rowItem} 
 						detailRow={detailRow}
 						isLoading={isLoading} 
-						rowIsClicked={rowIsClicked} />
+						rowIsClicked={rowIsClicked}
+						onSearchSend={onSearchSend} />
 			}
 				{
 					isLoaded && (totalCountRow > limitCountPage) &&
