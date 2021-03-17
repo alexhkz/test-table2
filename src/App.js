@@ -24,6 +24,7 @@ function App() {
 	const [buttonPreviousDisabled, setButtonPreviousDisabled] = useState('page-item');
 	const [currentPageActive, setCurrentPageActive] = useState('page-item');
 	const [searchText, setSearchText] = useState('');
+	const [newRow, setNewRow] = useState({});
 
 	const [{contactData, isLoading, setContactData, isLoaded }, ] = useServerData({url, isButtonClick});
 
@@ -46,12 +47,16 @@ function App() {
 	}
 
 	const filteredData = getFilteredData()
-	console.log('contactData', contactData)
-	console.log('filteredData', filteredData)
 
 	const lastBlockRow = currentPageNumber * limitCountPage;
 	const firstBlockRow = lastBlockRow - limitCountPage + 1;
 	const currentBlockRows = filteredData.slice(firstBlockRow, lastBlockRow);
+
+	const getInputFormData = ({id, firstName, lastName, email, phone}) => {
+		setNewRow({id, firstName, lastName, email, phone})
+	}
+
+	currentBlockRows.unshift(newRow)
 
 	const currentPage = (pg) => {
 		setCurrentPageNumber(pg)
@@ -78,7 +83,6 @@ function App() {
 
 	const onSearchSend = (text) => {
 		setSearchText(text)
-		console.log(searchText)
 	}
 
 	const sortData = (field) => {
@@ -107,7 +111,6 @@ function App() {
 	const onNextClick = () => {
 		if(currentPageNumber > totalCountPage -1) {
 			setButtonNextDisabled('disabled')
-			console.log(buttonNextDisabled)
 			return
 		}
 		setCurrentPageNumber(currentPageNumber + 1)
@@ -125,7 +128,8 @@ function App() {
 			{
 				!isButtonClick 
 				? <Switcher buttonHandler={buttonHandler}/>
-				: <TableBody 
+				: <TableBody
+						getInputFormData={getInputFormData} 
 						contactData={currentBlockRows}
 						sortData={sortData}
 						rowItem={rowItem}
